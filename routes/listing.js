@@ -11,41 +11,6 @@ const multer  = require('multer');
 const {storage} = require("../cloudConfig.js"); 
 const upload = multer({ storage })
 
-
-
-
-// const validateListing = (req, res, next) => {
-//   console.log("VALIDATION INPUT:", req.body);  // 👈 Add this
-//   const { error } = listingSchema.validate(req.body);
-//   if (error) {
-//     console.log("VALIDATION ERROR:", error.details);  // 👈 Add this
-//     throw new ExpressError(400, error.details[0].message);
-//   } else {
-//     next();
-//   }
-// };
-
-// const validateListing = (req, res, next) => {
-//   req.body.listing = req.body.listing || {};
-
-//   // Attach image from multer
-//   if (req.file) {
-//     req.body.listing.image = {
-//       url: req.file.path,
-//       filename: req.file.filename,
-//     };
-//   }
-
-//   console.log("VALIDATION INPUT:", req.body);
-
-//   const { error } = listingSchema.validate(req.body);
-//   if (error) {
-//     console.log("VALIDATION ERROR:", error.details);
-//     throw new ExpressError(400, error.details[0].message);
-//   } else {
-//     next();
-//   }
-// };
 const validateListing = (req, res, next) => {
   req.body.listing = req.body.listing || {};
 
