@@ -2,7 +2,6 @@ if(process.env.NODE_ENV != "production"){
 require("dotenv").config();
 }
 
-console.log(process.env.SECRET);
 
 // Add this as the first line in your app.js
 process.removeAllListeners('warning');
@@ -35,19 +34,8 @@ const reviewsRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 
 const DbUrl = process.env.ATLASDB_URL;
-// main()
-// .then((res) =>{
-// console.log("connection succesful");
-// })
-// .catch(err => console.log(err));
-
-// async function main() {
-//   await mongoose.connect(DbUrl);
-//  // 'mongodb://127.0.0.1:27017/wander'
-// }
 
 require('dotenv').config();
-console.log("🔧 Connecting to:", process.env.ATLASDB_URL);
 
 
 mongoose.connect(process.env.ATLASDB_URL, {
@@ -59,18 +47,6 @@ mongoose.connect(process.env.ATLASDB_URL, {
   console.error("❌ Failed to connect to MongoDB:", err);
 });
 
-
-// const sessionOptions = {
-//   secret: "mysupersecretcode",
-//   resave:false,
-//   saveUninitialized:true,
-
-//   cookie:{
-//     expires : Date.now() + 7*24*60*60*1000,
-//     maxAge:7*24*60*60*1000,
-//     httpOnly : true,
-//   },
-// };
 const MongoStore = require("connect-mongo");
 
 const sessionOptions = {
@@ -78,7 +54,7 @@ const sessionOptions = {
     mongoUrl: process.env.ATLASDB_URL,
     touchAfter: 24 * 3600 // time in seconds
   }),
-  secret: "mysupersecretcode",
+  secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -104,14 +80,8 @@ app.use((req, res, next) =>{
   res.locals.currUser = req.user; // Good practice to add error too
   next();
 }); //pbkdf2 hashing algorithm
-
-app.get("/demouser", async(req, res) =>{
-  let fakeuser = new User({
-    email:"student@gmail.com",
-    username:"delta-student",
-  });
-  let registerUser = await User.register(fakeuser, "helloworld"); //register method automatically will save fakeuser in db,also it will check wether username is unique.
-  res.send(registerUser);
+app.get("/", (req, res) => {
+  res.redirect("/listings");
 });
 
 app.use("/",listingsRouter);
