@@ -9,11 +9,11 @@ const {isLoggedIn, isReviewAuthor} = require("../middleware.js");
 const reviewController = require("../controller/reviews.js");
 
 const validateReview = (req, res, next) => {
-  console.log("🚨 Full Review Body:", req.body); // 👈 log full body
+  console.log(" Full Review Body:", req.body); 
   const { error } = reviewSchema.validate(req.body);
 
   if (error) {
-    console.log("❌ VALIDATION ERROR:", error.details);
+    console.log(" VALIDATION ERROR:", error.details);
     throw new ExpressError(400, error.details[0].message);
   } else {
     next();
